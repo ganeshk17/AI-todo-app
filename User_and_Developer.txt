@@ -1,0 +1,55 @@
+# AI Todo App - User & Developer Documentation
+
+## Table of Contents
+1. [User Documentation](#user-documentation)
+2. [Developer Documentation](#developer-documentation)
+3. [Deployment Guide](#deployment-guide)
+4. [Troubleshooting](#troubleshooting)
+
+---
+
+# User Documentation
+
+## Getting Started
+
+### What is the AI Todo App?
+The AI Todo App is an intelligent task management tool that combines traditional todo functionality with AI-powered translation capabilities. It helps you manage your tasks while breaking down language barriers through real-time translation.
+
+### Key Features
+- ✅ **Task Management**: Add, complete, and delete tasks
+- 🌐 **AI Translation**: Translate tasks into 12+ languages
+- 📊 **Statistics**: Track your productivity metrics
+- 📱 **Responsive Design**: Works on desktop and tablet
+- 💾 **Data Export**: Export your tasks as JSON
+
+## How to Use the App
+
+### 1. Setting Up Translation (Optional)
+If you want to use the translation feature:
+1. Obtain an OpenAI API key from [OpenAI's website](https://platform.openai.com/)
+2. Enter your API key in the sidebar under "OpenAI API Key"
+3. Select your preferred translation language from the dropdown
+
+### 2. Adding Tasks
+1. Locate the "Add New Todo" section
+2. Enter your task description in the text field
+3. Select a priority level (Low, Medium, High)
+4. Click "Add Todo" to save your task
+
+### 3. Managing Tasks
+- **Complete a task**: Check the checkbox next to the task
+- **Delete a task**: Click the 🗑️ Delete button
+- **Translate a task**: Click the 🌐 Translate button (requires API key)
+
+### 4. Filtering Tasks
+Use the filter options to view specific tasks:
+- **Show Completed**: Toggle to show/hide completed tasks
+- **Show Pending**: Toggle to show/hide pending tasks
+- **Filter by Priority**: Select specific priority levels
+
+### 5. Viewing Statistics
+Check the sidebar for quick statistics:
+- Total number of tasks
+- Completed tasks count
+- Pending tasks count
+-
