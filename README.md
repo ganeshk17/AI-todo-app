@@ -1,148 +1,167 @@
-# 🤖 AI Todo App
 
-A simple and intelligent todo application built with Streamlit and OpenAI API that allows you to manage tasks and translate them into different languages.
+# 🤖 AI Todo App – Smart, Fast & Multilingual Task Manager
+
+A clean and intelligent task management app built with **Streamlit** and **OpenAI API**. Easily manage your todos and translate them across multiple languages using a hybrid approach: **predefined instant translations** and **AI-powered GPT fallback**.
+
+---
 
 ## ✨ Features
 
-- ➕ **Add Tasks** - Create new todo items
-- ✅ **Mark Complete** - Toggle task completion status
-- 🌐 **Hybrid Translation** - Fast predefined translations + AI fallback
-  - 📚 **Instant Translation** - Common tasks translated immediately
-  - 🤖 **AI Translation** - OpenAI GPT for custom/complex tasks
-- 🎨 **Clean UI** - Modern, responsive interface
-- 💾 **Session Storage** - Tasks persist during your session
+- ➕ **Add Tasks** – Input and list new todos  
+- ✅ **Complete Tasks** – Toggle completion with a single click  
+- 🌐 **Hybrid Translation**  
+  - 📚 **Instant Translations** – Predefined phrases translated instantly  
+  - 🤖 **AI Translations** – Fallback to OpenAI GPT for custom text  
+- 🎨 **Clean UI** – Minimalist and responsive design  
+- 💾 **Session Storage** – Persist tasks during the browser session  
+
+---
 
 ## 🚀 Live Demo
 
-**Streamlit Cloud:** [Your-App-URL-Here](https://your-app-url.streamlit.app)
+🔗 [Streamlit Cloud App](https://ganeshk17-ai-todo-app-app-ttmaev.streamlit.app/)
 
-## 🛠️ Technologies Used
+📦 [GitHub Repository](https://github.com/ganeshk17/Ai-Todo-App)
 
-- **Frontend:** Streamlit
-- **AI:** OpenAI GPT-3.5-turbo
-- **Language:** Python 3.12
-- **Deployment:** Streamlit Cloud
+---
+
+## 🛠️ Built With
+
+- **UI & Backend:** [Streamlit](https://streamlit.io)  
+- **AI Translation:** [OpenAI GPT-3.5 / GPT-4o]  
+- **Language:** Python 3.12  
+- **Deployment:** Streamlit Cloud  
+
+---
 
 ## 📋 Requirements
 
 - Python 3.8+
 - OpenAI API Key
-- Dependencies listed in `requirements.txt`
-
-## 🔧 Local Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/ai-todo-app.git
-   cd ai-todo-app
-   ```
-
-2. **Create virtual environment:**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Set up environment variables:**
-   Create a `.env` file in the project root:
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
-
-5. **Run the application:**
-   ```bash
-   streamlit run app.py
-   ```
-
-6. **Open in browser:**
-   Navigate to `http://localhost:8501`
-
-## 🌐 Deployment
-
-### Streamlit Cloud Deployment
-
-1. Push your code to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect your GitHub repository
-4. Add your `OPENAI_API_KEY` in the secrets management
-5. Deploy!
-
-### Environment Variables for Deployment
-
-In Streamlit Cloud secrets management, add:
-```toml
-OPENAI_API_KEY = "your_openai_api_key_here"
-```
-
-## 🎯 How to Use
-
-1. **Add a Task:** Type your task in the input field and click "Add Task"
-2. **Translate:** Click the 🌐 button next to any task to translate it
-3. **Complete:** Click ✅ to mark tasks as completed
-4. **Undo:** Click ↩️ to mark completed tasks as pending again
-
-## 🧠 Translation System
-
-The app uses a **hybrid translation approach**:
-
-### 📚 Predefined Translations (Instant)
-- Common tasks like "buy groceries", "do laundry", "clean house"
-- 15+ predefined phrases in 5 languages (Spanish, French, German, Italian, Portuguese)
-- Instant results with no API calls
-- Marked with 📚 icon
-
-### 🤖 AI Translation (GPT-Powered)
-- Custom or complex tasks not in predefined list
-- Uses OpenAI GPT-3.5-turbo for accurate translations
-- Supports all selected languages
-- Marked with 🤖 icon
-
-### 🔍 How it Works:
-1. **First Check**: Searches predefined translations
-2. **Partial Match**: Checks if task contains common phrases
-3. **AI Fallback**: Uses GPT if no predefined match found
-
-## 📁 Project Structure
-
-```
-ai-todo-app/
-├── app.py              # Main application
-├── requirements.txt    # Python dependencies
-├── .env               # Environment variables (local only)
-├── .gitignore         # Git ignore rules
-└── README.md          # Project documentation
-```
-
-## 🔐 Security Notes
-
-- Never commit your `.env` file to version control
-- Your OpenAI API key should be kept secure
-- Use Streamlit Cloud's secrets management for deployment
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👨‍💻 Author
-
-Created with ❤️ using AI assistance
-
-## 🐛 Issues & Support
-
-If you encounter any issues, please [create an issue](https://github.com/yourusername/ai-todo-app/issues) on GitHub.
+- `requirements.txt` dependencies
 
 ---
 
-**Built with Streamlit and OpenAI API**
+## 🔧 Local Setup
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/ganeshk17/Ai-Todo-App
+cd ai-todo-app
+
+# 2. Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Add API Key to .env
+echo "OPENAI_API_KEY=your_openai_key" > .env
+
+# 5. Run the app
+streamlit run app.py
+```
+
+App will open at: http://localhost:8501
+
+---
+
+🌐 **Deploy to Streamlit Cloud**
+
+1. Push code to a GitHub repo  
+2. Go to Streamlit Cloud  
+3. Connect your GitHub repo  
+4. Add the following to Secrets in deployment settings:
+
+```toml
+OPENAI_API_KEY = "your_openai_api_key"
+```
+
+Deploy 🎉
+
+---
+
+## 🎯 How to Use
+
+- **Add:** Type a task and hit "Add Task"  
+- **Translate:** Click 🌐 to translate to the selected language  
+- **Complete:** Mark tasks done with ✅  
+- **Undo:** Revert completion with ↩️  
+
+---
+
+## 🧠 Translation System
+
+### 📚 Instant Predefined Phrases
+
+Common actions like buy groceries, do laundry, etc.  
+15+ hardcoded phrases across: Spanish, French, German, Italian, Portuguese  
+No API usage  
+Marked with 📚 icon
+
+### 🤖 GPT Fallback
+
+Handles custom or unfamiliar tasks  
+Uses OpenAI's GPT-3.5 or GPT-4o  
+Marked with 🤖 icon
+
+---
+
+## 🔍 Translation Flow
+
+```sql
+If exact match → use predefined 📚
+Else if phrase match → use segment translation
+Else → fallback to GPT 🤖
+```
+
+---
+
+## 📁 Folder Structure
+
+```bash
+ai-todo-app/
+├── app.py              # Main app logic
+├── requirements.txt    # Pip dependencies
+├── .env                # Local secrets (excluded from Git)
+├── .gitignore          # Files to ignore
+└── README.md           # You're reading it!
+```
+
+---
+
+## 🔐 Security Best Practices
+
+- Do NOT commit .env files  
+- Use environment variables or Streamlit secrets  
+- Rotate OpenAI keys regularly  
+
+---
+
+## 🤝 Contributing
+
+- Fork the project  
+- Create a feature branch  
+- Commit your changes  
+- Open a PR 🚀
+
+---
+
+## 📝 License
+
+Licensed under the MIT License.
+
+---
+
+## 👨‍💻 Author
+
+Made with ❤️ using Streamlit and OpenAI.
+
+---
+
+## 🐛 Issues & Feedback
+
+Found a bug or want to suggest a feature? Open an issue.
+
+Built with 🧠 AI and 🧰 Python for productive humans.
