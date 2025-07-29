@@ -10,6 +10,96 @@ load_dotenv()
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
+# Predefined translations dictionary
+PREDEFINED_TRANSLATIONS = {
+    # Common task phrases in different languages
+    'Spanish': {
+        'buy groceries': 'comprar comestibles',
+        'do laundry': 'hacer la colada',
+        'clean house': 'limpiar la casa',
+        'walk the dog': 'pasear al perro',
+        'pay bills': 'pagar facturas',
+        'call doctor': 'llamar al doctor',
+        'study for exam': 'estudiar para el examen',
+        'finish project': 'terminar proyecto',
+        'exercise': 'hacer ejercicio',
+        'cook dinner': 'cocinar la cena',
+        'water plants': 'regar plantas',
+        'take medication': 'tomar medicación',
+        'attend meeting': 'asistir a reunión',
+        'read book': 'leer libro',
+        'write report': 'escribir informe'
+    },
+    'French': {
+        'buy groceries': 'acheter des courses',
+        'do laundry': 'faire la lessive',
+        'clean house': 'nettoyer la maison',
+        'walk the dog': 'promener le chien',
+        'pay bills': 'payer les factures',
+        'call doctor': 'appeler le docteur',
+        'study for exam': 'étudier pour l\'examen',
+        'finish project': 'terminer le projet',
+        'exercise': 'faire de l\'exercice',
+        'cook dinner': 'cuisiner le dîner',
+        'water plants': 'arroser les plantes',
+        'take medication': 'prendre des médicaments',
+        'attend meeting': 'assister à la réunion',
+        'read book': 'lire un livre',
+        'write report': 'écrire un rapport'
+    },
+    'German': {
+        'buy groceries': 'Lebensmittel einkaufen',
+        'do laundry': 'Wäsche waschen',
+        'clean house': 'Haus putzen',
+        'walk the dog': 'mit dem Hund spazieren gehen',
+        'pay bills': 'Rechnungen bezahlen',
+        'call doctor': 'Arzt anrufen',
+        'study for exam': 'für Prüfung lernen',
+        'finish project': 'Projekt beenden',
+        'exercise': 'Sport machen',
+        'cook dinner': 'Abendessen kochen',
+        'water plants': 'Pflanzen gießen',
+        'take medication': 'Medikamente nehmen',
+        'attend meeting': 'an Besprechung teilnehmen',
+        'read book': 'Buch lesen',
+        'write report': 'Bericht schreiben'
+    },
+    'Italian': {
+        'buy groceries': 'comprare la spesa',
+        'do laundry': 'fare il bucato',
+        'clean house': 'pulire casa',
+        'walk the dog': 'portare a spasso il cane',
+        'pay bills': 'pagare le bollette',
+        'call doctor': 'chiamare il dottore',
+        'study for exam': 'studiare per l\'esame',
+        'finish project': 'finire il progetto',
+        'exercise': 'fare esercizio',
+        'cook dinner': 'cucinare la cena',
+        'water plants': 'annaffiare le piante',
+        'take medication': 'prendere farmaci',
+        'attend meeting': 'partecipare alla riunione',
+        'read book': 'leggere libro',
+        'write report': 'scrivere rapporto'
+    },
+    'Portuguese': {
+        'buy groceries': 'comprar mantimentos',
+        'do laundry': 'lavar roupa',
+        'clean house': 'limpar casa',
+        'walk the dog': 'passear com o cachorro',
+        'pay bills': 'pagar contas',
+        'call doctor': 'ligar para o médico',
+        'study for exam': 'estudar para o exame',
+        'finish project': 'terminar projeto',
+        'exercise': 'fazer exercício',
+        'cook dinner': 'cozinhar jantar',
+        'water plants': 'regar plantas',
+        'take medication': 'tomar medicação',
+        'attend meeting': 'participar da reunião',
+        'read book': 'ler livro',
+        'write report': 'escrever relatório'
+    }
+}
+
 # Configure page
 st.set_page_config(
     page_title="Simple AI Todo App",
@@ -65,12 +155,27 @@ if not api_key:
     st.error("❌ OPENAI_API_KEY not found in environment variables. Please add it to your .env file.")
     st.stop()
 
-# Language selection
-languages = ['Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi']
-target_language = st.sidebar.selectbox("Translation Language", languages)
-
 # Function to translate text
 def translate_task(text, language):
+    """
+    Translate text using predefined translations first, then GPT if not found
+    """
+    # Check predefined translations first
+    text_lower = text.lower().strip()
+    
+    if language in PREDEFINED_TRANSLATIONS:
+        predefined_dict = PREDEFINED_TRANSLATIONS[language]
+        
+        # Check for exact match
+        if text_lower in predefined_dict:
+            return f"📚 {predefined_dict[text_lower]}"
+        
+        # Check for partial matches (if task contains predefined phrase)
+        for predefined_phrase, translation in predefined_dict.items():
+            if predefined_phrase in text_lower:
+                return f"📚 {translation} (partial match)"
+    
+    # If not found in predefined, use GPT
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini-2024-07-18",
@@ -81,7 +186,7 @@ def translate_task(text, language):
             max_tokens=100,
             temperature=0.3
         )
-        return response.choices[0].message.content.strip()
+        return f"🤖 {response.choices[0].message.content.strip()}"
     except Exception as e:
         return f"❌ Translation failed: {str(e)}"
 
@@ -97,6 +202,7 @@ with st.form("add_task"):
             'text': new_task.strip(),
             'created_at': datetime.now().strftime("%Y-%m-%d %H:%M"),
             'completed': False,
+            'selected_language': 'Spanish',  # Default language for each task
             'translation': None
         }
         st.session_state.todos.append(task_data)
@@ -114,8 +220,8 @@ else:
         todo_class = "completed" if todo['completed'] else ""
         st.markdown(f'<div class="todo-item {todo_class}">', unsafe_allow_html=True)
         
-        # Task content
-        col1, col2, col3 = st.columns([3, 1, 1])
+        # Task content and complete button
+        col1, col2 = st.columns([4, 1])
         
         with col1:
             # Show task with strikethrough if completed
@@ -124,14 +230,6 @@ else:
             st.caption(f"{'✅ Completed' if todo['completed'] else '⏳ Pending'} | Created: {todo['created_at']}")
         
         with col2:
-            # Translate button
-            if st.button("🌐 Translate", key=f"translate_{todo['id']}"):
-                with st.spinner("Translating..."):
-                    translation = translate_task(todo['text'], target_language)
-                    st.session_state.todos[i]['translation'] = translation
-                    st.rerun()
-        
-        with col3:
             # Complete/Uncomplete button
             if todo['completed']:
                 if st.button("↩️ Undo", key=f"undo_{todo['id']}", type="secondary"):
@@ -144,9 +242,39 @@ else:
                     st.success("Task completed!")
                     st.rerun()
         
-        # Show translation if available
-        if todo['translation']:
-            st.markdown(f'<div class="translation">🌐 {target_language}: {todo["translation"]}</div>', unsafe_allow_html=True)
+        # Translation section for THIS specific task
+        st.markdown("---")
+        trans_col1, trans_col2 = st.columns([2, 1])
+        
+        with trans_col1:
+            # Language dropdown for THIS task only
+            languages = ['Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Chinese', 'Japanese', 'Korean', 'Arabic', 'Hindi']
+            current_language = todo.get('selected_language', 'Spanish')
+            
+            selected_language = st.selectbox(
+                "🌐 Select language to translate:",
+                languages,
+                index=languages.index(current_language) if current_language in languages else 0,
+                key=f"lang_select_{todo['id']}"
+            )
+            
+            # Update the task's selected language if it changed
+            if selected_language != current_language:
+                st.session_state.todos[i]['selected_language'] = selected_language
+                st.session_state.todos[i]['translation'] = None  # Clear old translation
+                st.rerun()
+        
+        with trans_col2:
+            # Translate button for THIS task
+            if st.button(f"🌐 Translate", key=f"translate_{todo['id']}", type="secondary"):
+                with st.spinner(f"Translating to {selected_language}..."):
+                    translation = translate_task(todo['text'], selected_language)
+                    st.session_state.todos[i]['translation'] = translation
+                    st.rerun()
+        
+        # Show translation if available for THIS task
+        if todo.get('translation'):
+            st.markdown(f'<div class="translation">🌐 <strong>{selected_language}:</strong> {todo["translation"]}</div>', unsafe_allow_html=True)
         
         st.markdown('</div>', unsafe_allow_html=True)
         st.markdown("---")
